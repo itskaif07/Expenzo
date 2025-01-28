@@ -1,127 +1,150 @@
-<form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()"
-    class="flex flex-col items-center py-6 px-10 w-full h-full space-y-6 relative">
+<div class="w-full h-full relative">
+    <form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()"
+        class="flex flex-col items-center py-6 px-10 w-full h-full space-y-6">
 
-    <!-- HEAD -->
-    <div class="flex items-center justify-between w-full">
-        <div routerLink="/" class="flex items-center justify-center cursor-pointer border w-14 h-14 rounded-sm">
-            <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
-        </div>
-
-        <h1 class="font-bold text-2xl">Add Your Expense</h1>
-
-        <!-- Submit Button -->
-        <button type="submit" [disabled]="addExpenseForm.invalid"
-            class="bg-blue-500 text-white py-3 w-36 font-semibold rounded-sm hover:bg-blue-600 transition ease-in duration-200">
-            Add
-        </button>
-    </div>
-
-    <!-- BODY -->
-    <div class="flex flex-col items-center w-full max-w-2xl space-y-6">
-
-        <!-- Name -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="name" class="block text-gray-700 font-medium">Subject</label>
-            <input id="name" formControlName="name" type="text" placeholder="Enter a short name for this expense"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none" maxlength="15">
-
-            @if(addExpenseForm.controls['name'].invalid && addExpenseForm.controls['name'].touched) {
-            <div>
-                @if(addExpenseForm.controls['name'].errors?.['required']) {
-                <small class="text-red-600">Subject is required.</small>
-                }
-                @else if(addExpenseForm.controls['name'].errors?.['maxLength']) {
-                <small class="text-red-600">Name cannot exceed 15 characters.</small>
-                }
+        <!-- HEAD -->
+        <div class="flex items-center justify-between w-full">
+            <div routerLink="/" class="flex items-center justify-center cursor-pointer border w-14 h-14 rounded-sm">
+                <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
             </div>
-            }
+
+            <h1 class="font-bold text-2xl">Add Your Expense</h1>
+
+            <!-- Submit Button -->
+            <button type="submit" [disabled]="addExpenseForm.invalid"
+                class="bg-blue-500 text-white py-3 w-36 font-semibold rounded-sm hover:bg-blue-600 transition ease-in duration-200">
+                Add
+            </button>
         </div>
 
-        <!-- Amount -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="amount" class="block text-gray-700 font-medium">Amount</label>
-            <input id="amount" formControlName="amount" type="number" placeholder="Enter Amount" min="0"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
+        <!-- BODY -->
+        <div class="flex flex-col items-center w-full max-w-2xl space-y-6">
 
-            @if(addExpenseForm.controls['amount'].invalid && addExpenseForm.controls['amount'].touched) {
-            <div>
-                @if(addExpenseForm.controls['amount'].errors?.['required']) {
-                <small class="text-red-600">Amount is required.</small>
-                }
-            </div>
-            }
-        </div>
+            <!-- Name -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="name" class="block text-gray-700 font-medium">Subject</label>
+                <input id="name" formControlName="name" type="text" placeholder="Enter a short name for this expense"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none" maxlength="15">
 
-        <!-- Description -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="description" class="block text-gray-700 font-medium">Description (optional)</label>
-            <textarea rows="3" id="description" formControlName="description" placeholder="Any description about it"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none"></textarea>
-        </div>
-
-        <!-- Category -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="category" class="block text-gray-700 font-medium">Category</label>
-            <div class="relative w-full">
-                <select id="category" formControlName="category"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-sm relative focus:outline-none">
-                    <option value="#" disabled selected>Select a category</option>
-
-                    @for (cat of categoryOptions; track $index) {
-                    <option [value]="cat">{{ cat.name }}</option>
+                @if(addExpenseForm.controls['name'].invalid && addExpenseForm.controls['name'].touched) {
+                <div>
+                    @if(addExpenseForm.controls['name'].errors?.['required']) {
+                    <small class="text-red-600">Subject is required.</small>
                     }
+                    @else if(addExpenseForm.controls['name'].errors?.['maxLength']) {
+                    <small class="text-red-600">Name cannot exceed 15 characters.</small>
+                    }
+                </div>
+                }
+            </div>
 
+            <!-- Amount -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="amount" class="block text-gray-700 font-medium">Amount</label>
+                <input id="amount" formControlName="amount" type="number" placeholder="Enter Amount" min="0"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
+
+                @if(addExpenseForm.controls['amount'].invalid && addExpenseForm.controls['amount'].touched) {
+                <div>
+                    @if(addExpenseForm.controls['amount'].errors?.['required']) {
+                    <small class="text-red-600">Amount is required.</small>
+                    }
+                </div>
+                }
+            </div>
+
+            <!-- Description -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="description" class="block text-gray-700 font-medium">Description (optional)</label>
+                <textarea rows="3" id="description" formControlName="description" placeholder="Any description about it"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none"></textarea>
+            </div>
+
+            <!-- Category -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="category" class="block text-gray-700 font-medium">Category</label>
+                <div class="relative w-full">
+                    <select id="category" formControlName="category"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-sm relative focus:outline-none">
+                        <option value="#" disabled selected>Select a category</option>
+
+                        @for (cat of categoryOptions; track $index) {
+                        <option [value]="cat">{{ cat.name }}</option>
+                        }
+
+                    </select>
+
+                    <div class="w-8 h-8 rounded-full border border-black flex items-center justify-center absolute -right-12 top-1/2 transform -translate-y-1/2 cursor-pointer hover:bg-gray-200"
+                        (click)="openAddCategory()">
+                        <span class="text-xl font-bold">+</span>
+                    </div>
+                </div>
+
+                @if(addExpenseForm.controls['category'].invalid && addExpenseForm.controls['category'].touched) {
+                <small class="text-red-600">Category is required.</small>
+                }
+            </div>
+
+            <!-- Date -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="date" class="block text-gray-700 font-medium">Date</label>
+                <input id="date" formControlName="date" type="date"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
+            </div>
+
+            <!-- Location -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="location" class="block text-gray-700 font-medium">Location (optional)</label>
+                <input id="location" formControlName="location" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
+            </div>
+
+            <!-- Status -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="status" class="block text-gray-700 font-medium">Status</label>
+                <select id="status" formControlName="status"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
+                    <option value="pending">Pending</option>
+                    <option value="paid">Paid</option>
                 </select>
+            </div>
 
-                <div class="w-8 h-8 rounded-full border border-black flex items-center justify-center absolute -right-12 top-1/2 transform -translate-y-1/2 cursor-pointer hover:bg-gray-200"
-                    (click)="openDialog()">
-                    <span class="text-xl font-bold">+</span>
+            <!-- Payment Method -->
+            <div class="w-full flex flex-col items-start space-y-2">
+                <label for="paymentMethod" class="block text-gray-700 font-medium">Payment Method</label>
+                <select id="paymentMethod" formControlName="paymentMethod"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
+                    <option value="Cash">Cash</option>
+                    <option value="Card">Card</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Wallet">Wallet</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+        </div>
+
+
+    </form>
+
+
+    <!-- Dialog Form -->
+    @if (isAddingCategory) {
+    <div class="flex items-center justify-center absolute inset-0 z-20 h-full w-full">
+
+        <div class="h-40 w-1/2 flex items-center justify-center flex-col bg-[#333333] text-white rounded-md space-y-6">
+
+            <h1 class="font-semibold text-lg">Add New Category</h1>
+
+            <div class="w-4/5 flex flex-col items-center justify-center space-y-6">
+                <input type="text" class="w-1/2 outline-none px-2 text-black h-6" [(ngModel)]="addedCategory">
+                <div class="space-x-6 flex items-center justify-center">
+                    <button (click)="addCategory()" class="bg-blue-600 font-medium w-24 h-8">Add</button>
+                    <button (click)="closeAddCategory()"
+                        class="bg-gray-300 text-black font-medium w-24 h-8">Cancel</button>
                 </div>
             </div>
-
-            @if(addExpenseForm.controls['category'].invalid && addExpenseForm.controls['category'].touched) {
-            <small class="text-red-600">Category is required.</small>
-            }
         </div>
-
-        <!-- Date -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="date" class="block text-gray-700 font-medium">Date</label>
-            <input id="date" formControlName="date" type="date"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
-        </div>
-
-        <!-- Location -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="location" class="block text-gray-700 font-medium">Location (optional)</label>
-            <input id="location" formControlName="location" type="text"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
-        </div>
-
-        <!-- Status -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="status" class="block text-gray-700 font-medium">Status</label>
-            <select id="status" formControlName="status"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
-                <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-            </select>
-        </div>
-
-        <!-- Payment Method -->
-        <div class="w-full flex flex-col items-start space-y-2">
-            <label for="paymentMethod" class="block text-gray-700 font-medium">Payment Method</label>
-            <select id="paymentMethod" formControlName="paymentMethod"
-                class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
-                <option value="Cash">Cash</option>
-                <option value="Card">Card</option>
-                <option value="UPI">UPI</option>
-                <option value="Wallet">Wallet</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-
     </div>
-</form>
-
-<app-add-category></app-add-category>
+    }
+</div>

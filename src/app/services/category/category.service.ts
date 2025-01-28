@@ -1,6 +1,6 @@
 import { EventEmitter, inject, Injectable } from '@angular/core';
 import { addDoc, collection, Firestore, getDocs } from '@angular/fire/firestore';
-import { BehaviorSubject, from, map, Observable } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class CategoryService {
   addCategory(value:string):Observable<any>{
     const capitalized = this.capitalize(value)
     return from(addDoc(this.collectionRef, {name: capitalized})).pipe(
-      map(() => this.getCategories())
+      switchMap(() => this.getCategories())
     )
   }
  
@@ -39,7 +39,6 @@ export class CategoryService {
       })
     );
   }
-  
   
 
   capitalize(value:string){
