@@ -1,0 +1,18 @@
+<!-- Dialog Form -->
+@if (isOpen) {
+<div class="flex items-center justify-center absolute inset-0 z-20 h-full w-full">
+
+    <div class="h-52 w-1/2 flex items-center justify-center flex-col bg-[#333333] text-white rounded-md space-y-6">
+
+        <h1 class="font-semibold text-lg">Add New Category</h1>
+        
+        <div class="w-4/5 flex flex-col items-center justify-center space-y-6">
+            <input type="text" class="w-1/2 outline-none px-2 text-black h-6" [(ngModel)]="category">
+            <div class="space-x-6 flex items-center justify-center">
+            <button (click)="addCategory()" class="bg-blue-600 font-medium w-24 h-8">Add</button>
+            <button (click)="close()" class="bg-gray-300 text-black font-medium w-24 h-8">Cancel</button>
+        </div>
+    </div>
+</div>
+</div>
+}
