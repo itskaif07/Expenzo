@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { User } from '@angular/fire/auth';
 import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, getDoc, getDocs, orderBy, query, sum, updateDoc, where } from '@angular/fire/firestore';
 import { catchError, from, map, Observable, of } from 'rxjs';
 import { expense } from '../../models/expense';
@@ -9,11 +8,13 @@ import { expense } from '../../models/expense';
 })
 export class ExpenseService {
 
+  fireStore = inject(Firestore)
+
   private getCollection(uid: string) {
     return collection(this.fireStore, `users/${uid}/expenses`)
   }
 
-  fireStore = inject(Firestore)
+
 
   addExpense(userId: string, expense: expense) {
     const expensesCollection = this.getCollection(userId)
@@ -152,36 +153,32 @@ export class ExpenseService {
   }
 
   getCategorisedMonthlySum(userId: string): Observable<any> {
-    const expensesCollection = this.getCollection(userId)
-
+    const expensesCollection = this.getCollection(userId);
+  
     return new Observable(observer => {
       getDocs(expensesCollection).then(querySnapshot => {
         const categorisedMonthlyData: any = {};
-
+  
         querySnapshot.forEach(doc => {
           const data = doc.data();
           const date = data['date'] || '';
           const category = data['category'] || 'Uncategorized';
           const amount = data['amount'] || 0;
-
+  
           if (date) {
-            const monthYear = date.slice(0, 7);
-
-
+            const monthYear = date.slice(0, 7);  // 🔥 This is the correct month grouping
+  
             if (!categorisedMonthlyData[monthYear]) {
               categorisedMonthlyData[monthYear] = {};
             }
-
-            if (categorisedMonthlyData[monthYear][category]) {
-              categorisedMonthlyData[monthYear][category] += amount;
-            } else {
-              categorisedMonthlyData[monthYear][category] = amount;
-            }
+  
+            categorisedMonthlyData[monthYear][category] = 
+              (categorisedMonthlyData[monthYear][category] || 0) + amount;
           } else {
             console.warn('Missing date for document:', doc.id);
           }
         });
-
+  
         observer.next(categorisedMonthlyData);
         observer.complete();
       }).catch(error => {
@@ -189,6 +186,7 @@ export class ExpenseService {
       });
     });
   }
+  
 
   getSpecificData(userId: string, docId: string): Observable<expense> {
     const docRef = doc(this.fireStore, `users/${userId}/expenses/${docId}`);

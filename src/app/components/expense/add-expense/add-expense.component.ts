@@ -1,11 +1,11 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth/auth.service';
 import { ExpenseService } from '../../../services/expense/expense.service';
 import { Router, RouterLink } from '@angular/router';
-import { AddCategoryComponent } from '../../category/add-category/add-category.component';
 import { CategoryService } from '../../../services/category/category.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-add-expense',
@@ -22,18 +22,20 @@ export class AddExpenseComponent implements OnInit {
   router = inject(Router)
 
   categoryOptions: any[] = []
+  userCategoryOptions: any[] = []
+  combinedCategories: any[] = []
   uid: string | null = null
   isAddingCategory: boolean = false
   addedCategory: string = ''
+  addedCategoryError: string = ''
+  isCategoryError: boolean = false
 
   addExpenseForm: FormGroup = new FormGroup({})
 
   ngOnInit(): void {
     this.getUserId()
     this.setFormState()
-    this.categoryService.category$.subscribe((categories) => {
-      this.categoryOptions = categories;
-    });
+    this.combineCategoryOptions()
   }
 
   getUserId() {
@@ -45,8 +47,6 @@ export class AddExpenseComponent implements OnInit {
       console.log('Error while fetching uid, ', this.uid)
     })
   }
-
-
 
   setFormState() {
     const today = new Date().toISOString().split('T')[0];
@@ -68,41 +68,80 @@ export class AddExpenseComponent implements OnInit {
   }
 
   closeAddCategory() {
+    this.addedCategory = '';
+    this.isCategoryError = false
+    this.addedCategoryError = ''
     this.isAddingCategory = false
   }
 
-
-  getCategoryOption() {
-    this.categoryService.getCategories().subscribe((res: any) => {
-      this.categoryOptions = res
-    })
-  }
-
-  addCategory() {
-    if (this.addedCategory && this.addedCategory.trim() !== '') {
-      this.categoryService.addCategory(this.addedCategory).subscribe(
-        (res: any) => {
-          this.closeAddCategory(); 
-          this.getCategoryOption();
-          this.addedCategory = ''; 
-        },
-        (error: any) => {
-          console.error('Error while adding category:', error);
-        }
-      );
-    } else {
-      console.log('Category is empty');
+  async combineCategoryOptions() {
+    try {
+      this.categoryOptions = await firstValueFrom(this.categoryService.getCategories()) || [];
+      this.userCategoryOptions = this.uid 
+        ? await firstValueFrom(this.categoryService.getUserCategories(this.uid)) || [] 
+        : [];
+  
+      this.combinedCategories = [...this.categoryOptions, ...this.userCategoryOptions];
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
   }
   
 
 
+  addCategory() {
+
+    this.isCategoryError = false;
+    this.addedCategoryError = '';
+
+    this.addedCategory = this.categoryService.capitalize(this.addedCategory)
+
+    if (this.addedCategory.trim() === '') {
+      this.isCategoryError = true
+      this.addedCategoryError = "Category is required"
+      return;
+    }
+
+    const categoryExists = this.categoryOptions.some((category) => {
+      return this.addedCategory === category.name
+    });
+
+    const userCategoryExists = this.userCategoryOptions.some((category) => {
+      return this.addedCategory === category.name
+    })
+
+    if (categoryExists || userCategoryExists) {
+      this.isCategoryError = true
+      this.addedCategoryError = `${this.addedCategory} already exists`
+      return;
+    }
+
+    if (this.uid != null) {
+      this.categoryService.addCategory(this.addedCategory, this.uid).subscribe(
+        (res: any) => {
+          this.closeAddCategory();
+          this.combineCategoryOptions()
+          this.addedCategory = '';
+        },
+        (error: any) => {
+          console.error('Error while adding category:', error);
+        }
+      );
+    }
+  }
+
+
+
   onSubmit() {
     if (this.uid != null) {
       this.expenseService.addExpense(this.uid, this.addExpenseForm.value).subscribe((res: any) => {
+        this.router.navigateByUrl('expenses-list')
       }, error => {
         console.log('error while adding expense', error)
       })
+    }
+    else {
+      this.router.navigateByUrl('/log-in')
     }
   }
 }

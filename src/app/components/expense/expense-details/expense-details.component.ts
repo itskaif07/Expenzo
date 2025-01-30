@@ -7,6 +7,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { expense } from '../../../models/expense';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../../services/category/category.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-expense-details',
@@ -33,7 +34,10 @@ export class ExpenseDetailsComponent implements OnInit {
   isEditingLocation: boolean = false;
   isEditingPaymentMethod: boolean = false;
   isEditingDescription: boolean = false;
+
   categoryOptions: any[] = [];
+  userCategoryOptions: any[] = [];
+  combinedCategories:any [] = []
 
   subject: string = '';
   amount: number = 0;
@@ -53,6 +57,7 @@ export class ExpenseDetailsComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.docId = params.get('id');
       this.getDetails();
+      this.getCombinedOptions()
     });
   }
 
@@ -85,7 +90,6 @@ export class ExpenseDetailsComponent implements OnInit {
     if (this.uid != null && this.docId != null) {
       this.expenseService.getSpecificData(this.uid, this.docId).subscribe((res: expense) => {
         this.details = res;
-        this.getCategoryOptions();
         this.setFormState();
       }, error => {
         console.log('Some error while fetching the user details', error);
@@ -93,8 +97,16 @@ export class ExpenseDetailsComponent implements OnInit {
     }
   }
 
-  getCategoryOptions() {
-   
+  async getCombinedOptions() {
+    try {
+      this.categoryOptions = await firstValueFrom(this.categoryService.getCategories()) || []
+      this.userCategoryOptions = this.uid ? await firstValueFrom(this.categoryService.getUserCategories(this.uid)) || [] : []
+
+      this.combinedCategories = [...this.categoryOptions, ...this.userCategoryOptions]
+    }
+    catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   }
 
 
@@ -112,7 +124,7 @@ export class ExpenseDetailsComponent implements OnInit {
 
   toggleStatusEdit() {
     if (this.details) {
-      const newStatus = this.details.status === 'paid' ? 'pending' : 'paid';
+      const newStatus = this.details.status === 'Paid' ? 'Pending' : 'Paid';
       if (this.details.status !== newStatus) {
         this.updateField('status', newStatus);
       }

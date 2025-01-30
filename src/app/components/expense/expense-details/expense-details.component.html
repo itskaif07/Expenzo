@@ -87,7 +87,7 @@
       [ngClass]="isEditingStatus ? 'justify-between w-full' : 'justify-start w-11/12'">
       <h1>Status:</h1>
       @if(!isEditingStatus){
-      <h1 [ngClass]="details.status == 'paid'? 'text-green-600':'text-amber-600'">{{ details.status || 'Not provided' }}
+      <h1 [ngClass]="details.status == 'Paid'? 'text-green-600':'text-amber-600'">{{ details.status || 'Not provided' }}
       </h1>
       }
       @else {
@@ -100,7 +100,7 @@
     </div>
     <div (click)="toggleStatusEdit()"
       class="w-10 cursor-pointer absolute -right-16 inset-y-0 rounded-md flex items-center justify-center">
-      @if(details.status == 'pending'){
+      @if(details.status == 'Pending'){
       <img src="assets/toggle-button.png" alt="" class="w-10">
       }
       @else{
@@ -121,8 +121,15 @@
       <select id="category" [(ngModel)]="category"
         class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none">
         <option value="#" disabled selected>Select a category</option>
+        @if(authService.checkLogIn() && combinedCategories.length){
+        @for (cat of combinedCategories; track $index) {
+        <option [value]="cat.name">{{ cat.name }}</option>
+        }
+        }
+        @else{
         @for (cat of categoryOptions; track $index) {
-        <option [value]="cat">{{ cat }}</option>
+        <option [value]="cat.name">{{ cat.name }}</option>
+        }
         }
       </select>
       <div (click)="updateField('category', category)"

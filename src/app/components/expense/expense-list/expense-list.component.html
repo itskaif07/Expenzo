@@ -12,7 +12,7 @@
             <h1 class="text-green-600"> ₹ {{ totalAmount }}</h1>
             }
             @else {
-            <h1></h1>
+            <div class="w-16"></div>
             }
         </div>
     </div>
@@ -54,7 +54,7 @@
                         {{ expense.category }}
                     </div>
                     <div class="text-center py-1 px-2 flex-1 border-[#222222] group-hover:text-white"
-                        [ngClass]="{'text-green-600': expense.status === 'paid', 'text-amber-600': expense.status !== 'paid'}">
+                        [ngClass]="{'text-green-600': expense.status === 'Paid', 'text-amber-600': expense.status === 'Pending'}">
                         {{ expense.status }}
                     </div>
                 </div>
@@ -64,7 +64,7 @@
     }
     @else {
     <div class="flex items-center justify-center h-[60vh] w-full">
-        <h1 class="font-semibold text-lg">No expenses yet.</h1>
+        <h1 class="font-semibold text-xl text-center">No expenses yet.</h1>
     </div>
     }
 </div>

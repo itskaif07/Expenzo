@@ -5,7 +5,6 @@ import { LogInComponent } from './components/auth/log-in/log-in.component';
 import { HomeComponent } from './components/home/home.component';
 import { AddExpenseComponent } from './components/expense/add-expense/add-expense.component';
 import { ExpenseListComponent } from './components/expense/expense-list/expense-list.component';
-import { UpdateExpenseComponent } from './components/expense/update-expense/update-expense.component';
 import { ExpenseDetailsComponent } from './components/expense/expense-details/expense-details.component';
 import { DeleteExpenseComponent } from './components/expense/delete-expense/delete-expense.component';
 
@@ -54,11 +53,6 @@ export const routes: Routes = [
     {
         path: 'expense-details/:id',
         component: ExpenseDetailsComponent
-    },
-
-    {
-        path: 'update-expense',
-        component: UpdateExpenseComponent
     },
 
     {

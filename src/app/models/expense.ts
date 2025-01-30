@@ -8,6 +8,6 @@ export interface expense{
     category: string,
     description?:string,
     location?:string,
-    status: 'paid' | 'pending';
+    status: 'Paid' | 'Pending';
     paymentMethod: 'Cash' | 'Card' | 'UPI' | 'Wallet';
 }
