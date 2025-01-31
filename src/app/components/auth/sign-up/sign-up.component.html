@@ -1,82 +1,85 @@
-<div class="flex items-center justify-center h-[92vh] w-full py-2">
+<div class="flex items-center justify-center h-[90vh] w-full py-2 overflow-hidden">
 
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()"
-        class="w-1/2 h-full flex flex-col items-center justify-center space-y-5 border-[1px] border-black rounded-xl overflow-hidden mx-auto">
+        class="w-[45%] h-[90%] flex flex-col items-center justify-center space-y-5 border-[1px] border-black rounded-xl  mx-auto">
 
         <div class="w-full h-1/4 flex items-end justify-center py-4">
             <img src="assets/register.png" alt="" class="w-full h-5/6 object-contain object-center">
         </div>
 
         @if(errorMessage != null){
-            <h1 class="text-red-600 font-sans">{{errorMessage}}</h1>
+        <h1 class="text-red-600 font-sans">{{errorMessage}}</h1>
         }
-        
+
         <div class="flex flex-col items-center justify-start w-full h-3/4 space-y-9">
-            
+
             <div class="w-4/5 flex flex-col items-start justify-start">
                 <input type="text" class="w-full py-2 border-black border-[1px] rounded-md px-2"
-                formControlName="displayName" placeholder="Display name">
-                
-                @if(signUpForm.controls['displayName'].invalid && signUpForm.controls['displayName'].touched){
-                    @if(signUpForm.controls['displayName'].errors?.['required']){
-                            <h1 class="text-red-600 font-sans">Display name is required.</h1>
-                        }
+                    formControlName="displayName" placeholder="Display name">
 
-                    @if(signUpForm.controls['displayName'].errors?.['minlength']){
-                            <h1 class="text-red-600 font-sans">Display name must be at least 6 characters.</h1>
-                        }
-                    }
+                @if(signUpForm.controls['displayName'].invalid && signUpForm.controls['displayName'].touched){
+                @if(signUpForm.controls['displayName'].errors?.['required']){
+                <h1 class="text-red-600 font-sans">Display name is required.</h1>
+                }
+
+                @if(signUpForm.controls['displayName'].errors?.['minlength']){
+                <h1 class="text-red-600 font-sans">Display name must be at least 6 characters.</h1>
+                }
+                }
             </div>
 
             <div class="w-4/5 flex flex-col items-start justify-start">
                 <input type="text" class="w-full py-2 border-black border-[1px] rounded-md px-2" formControlName="email"
                     placeholder="Email">
 
-                    
-                @if(signUpForm.controls['email'].invalid && signUpForm.controls['email'].touched){
-                    @if(signUpForm.controls['email'].errors?.['required']){
-                            <h1 class="text-red-600 font-sans">Email is required.</h1>
-                        }
 
-                    @if(signUpForm.controls['email'].errors?.['email']){
-                            <h1 class="text-red-600 font-sans">Please enter correct email.</h1>
-                        }
-                    }
+                @if(signUpForm.controls['email'].invalid && signUpForm.controls['email'].touched){
+                @if(signUpForm.controls['email'].errors?.['required']){
+                <h1 class="text-red-600 font-sans">Email is required.</h1>
+                }
+
+                @if(signUpForm.controls['email'].errors?.['email']){
+                <h1 class="text-red-600 font-sans">Please enter correct email.</h1>
+                }
+                }
             </div>
 
             <div class="w-4/5 flex flex-col items-start justify-start">
                 <input type="password" class="w-full py-2 border-black border-[1px] rounded-md px-2"
                     formControlName="password" placeholder="Password">
-                    
-                @if(signUpForm.controls['password'].invalid && signUpForm.controls['password'].touched){
-                    @if(signUpForm.controls['password'].errors?.['required']){
-                            <h1 class="text-red-600 font-sans">Password is required.</h1>
-                        }
 
-                    @if(signUpForm.controls['password'].errors?.['minlength']){
-                            <h1 class="text-red-600 font-sans">Password must be at least 6 characters.</h1>
-                        }
-                    }
+                @if(signUpForm.controls['password'].invalid && signUpForm.controls['password'].touched){
+                @if(signUpForm.controls['password'].errors?.['required']){
+                <h1 class="text-red-600 font-sans">Password is required.</h1>
+                }
+
+                @if(signUpForm.controls['password'].errors?.['minlength']){
+                <h1 class="text-red-600 font-sans">Password must be at least 6 characters.</h1>
+                }
+                }
             </div>
 
-            <button type="submit" [ngClass]="signUpForm.invalid ? 'bg-blue-600': 'bg-blue-500'" [disabled]="signUpForm.invalid"
+            <button type="submit" [ngClass]="signUpForm.invalid ? 'bg-blue-600': 'bg-blue-500'"
+                [disabled]="signUpForm.invalid"
                 class="w-4/5 flex items-center justify-center font-bold py-3 rounded-md  transition-all duration-150 ease-out text-white">Register</button>
 
-                <div class="w-4/5 px-6 flex items-center justify-center space-x-6">
-                    <div class="h-[1px] w-[35%] bg-black"></div>
-                    <h1 class="text-center">or register with</h1>
-                    <div class="h-[1px] w-[35%] bg-black"></div>
-                </div>
+            <div class="w-4/5 px-6 flex items-center justify-center space-x-6">
+                <div class="h-[1px] w-[35%] bg-black"></div>
+                <h1 class="text-center">or register with</h1>
+                <div class="h-[1px] w-[35%] bg-black"></div>
+            </div>
 
-                <div (click)="googleSignUp()" class="w-1/2 cursor-pointer flex items-center justify-center space-x-6 border-[1px] border-black py-3 rounded-md">
-                    <img src="assets/google.webp" alt="" class="w-6">
-                    <h1 class="font-semibold">Google</h1>
-                </div>
+            <div (click)="googleSignUp()"
+                class="w-1/2 cursor-pointer flex items-center justify-center space-x-6 border-[1px] border-black py-3 rounded-md">
+                <img src="assets/google.webp" alt="" class="w-6">
+                <h1 class="font-semibold">Google</h1>
+            </div>
 
-                <div class="w-4/5 px-6 flex items-center justify-center space-x-6">
-                    <h1>Already have an account ? </h1>
-                    <a routerLink="/log-in" class="text-gray-600 font-semibold underline cursor-pointer active:text-gray-800">Log In</a>
-                </div>
+            <div class="w-4/5 px-6 flex items-center justify-center space-x-6">
+                <h1>Already have an account ? </h1>
+                <a routerLink="/log-in"
+                    class="text-gray-600 font-semibold underline cursor-pointer active:text-gray-800">Log In</a>
+            </div>
         </div>
 
 
