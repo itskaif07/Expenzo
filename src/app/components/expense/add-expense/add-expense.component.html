@@ -142,13 +142,13 @@
     @if (isAddingCategory) {
     <div class="flex items-center justify-center absolute inset-0 z-20 h-full w-full">
 
-        <div class="w-1/2 flex items-center justify-center flex-col bg-[#333333] text-white rounded-md space-y-6"
+        <div class="w-11/12 lg:w-1/2 flex items-center justify-center flex-col bg-[#333333] text-white rounded-md space-y-6"
             [ngClass]="isCategoryError? 'h-60': 'h-40'">
 
             <h1 class="font-semibold text-lg">Add New Category</h1>
 
             <div class="w-4/5 flex flex-col items-center justify-center space-y-6">
-                <input type="text" class="w-1/2 outline-none px-2 text-black h-6" [(ngModel)]="addedCategory">
+                <input type="text" class="w-4/5 lg:w-1/2 outline-none px-2 text-black h-6" [(ngModel)]="addedCategory">
                 @if(isCategoryError){
                 <p class="text-sm text-red-500">{{addedCategoryError}}</p>
                 }
