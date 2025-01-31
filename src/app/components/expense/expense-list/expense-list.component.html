@@ -1,21 +1,17 @@
 <div class="flex flex-col items-center py-6 px-6 w-full h-full space-y-6">
     <!-- HEADER -->
-    <div class="flex items-center justify-between w-full">
-        <div routerLink="/" class="flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
+    <div class="flex items-center w-full">
+        <div routerLink="/" class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
-        <h1 class="font-bold text-2xl">Your Expenses</h1>
-
-        <div class="flex items-center justify-center space-x-4 text-lg font-semibold">
-            @if(totalAmount != null && totalAmount > 0){
-            <h1>Total: </h1>
-            <h1 class="text-green-600"> ₹ {{ totalAmount }}</h1>
-            }
-            @else {
-            <div class="w-16"></div>
-            }
+    
+        <div class="flex-grow text-center">
+            <h1 class="font-bold text-2xl">Your Expenses</h1>
         </div>
+    
+        <div class="hidden lg:block w-14"></div>
     </div>
+    
 
     @if (monthKeys && monthKeys.length > 0) {
     <!-- GRID -->
@@ -66,7 +62,7 @@
     <div class="flex flex-col space-y-6 items-center justify-center h-[70vh] w-full">
         <img src="assets/No-calls-yet-in-Viber-for-i.jpg" alt="no data" class="h-1/2 flex items-start justify-center">
 
-        <p class="text-sm tracking-widest">Your expenses will be displayed here after you add them.   🚀</p>
+        <p class="text-sm tracking-widest text-center">Your expenses will be displayed here after you add them.   🚀</p>
     </div>
     }
 </div>

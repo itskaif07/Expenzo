@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/Expenzo",
+    "public": "dist/expenzo/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -1,30 +1,49 @@
-<div class="w-full h-[87vh] flex items-center justify-center px-4 sm:px-8 overflow-hidden">
+<div class="w-full h-[87vh] flex items-center justify-center px-4 sm:px-8">
 
     @if (percentageList && percentageList.length > 0) {
-    <div class="w-full sm:w-1/2 md:w-2/5 min-[950px]:w-2/5 lg:w-2/5 min-[1100px]:w-1/3 xl:w-1/3 h-full flex items-center justify-center flex-col space-y-8">
+    <div
+        class="max-[400px]:w-full w-3/4 min-[550px]:w-1/2 sm:w-1/2 md:w-2/5 min-[950px]:w-2/5 lg:w-2/5 min-[1100px]:w-1/3 xl:w-1/3 2xl:w-1/4 h-full flex items-center justify-center flex-col space-y-8">
         <canvas class="w-full h-60 sm:h-80" baseChart [data]="pieChartData" [options]="pieChartOptions"
             [type]="'pie'"></canvas>
 
-        <h1 class="text-[#333] text-lg sm:text-xl font-medium text-center">- {{monthName}} expenses by category in %</h1>
+        <h1 class="text-[#333] text-lg sm:text-xl font-medium text-center">- {{monthName}} expenses by category in %
+        </h1>
 
-        <a routerLink="/add-expense"
-            class="flex items-center justify-center text-white w-44 py-3 font-semibold bg-blue-500 hover:bg-blue-600 transition-all duration-150 ease-out rounded-md">
-            <h1 class="font-semibold">Add Expense</h1>
-        </a>
+        <div class="flex flex-col justify-center items-center space-y-4 w-full">
+            <a routerLink="/add-expense"
+                class="flex items-center justify-center text-white w-3/4 py-3 font-semibold bg-blue-500 hover:bg-blue-600 transition-all duration-150 ease-out rounded-md">
+                <h1 class="font-semibold">Add an Expense</h1>
+            </a>
+
+            <a routerLink="/expenses-list"
+                class="flex items-center justify-center text-white w-3/4 py-3 font-semibold bg-green-600 hover:bg-green-700 transition-all duration-150 ease-out rounded-md">
+                <h1 class="font-semibold">All Expenses</h1>
+            </a>
+        </div>
     </div>
     }
     @else
     {
-        <div class="flex flex-col items-center justify-center space-y-5">
-            <h1 class="text-3xl sm:text-4xl font-bold text-center">Welcome to Expenzo!</h1>
-            <p class="text-center text-lg sm:text-xl font-medium text-gray-600">Smart & Simple Expense Tracking</p>
-        
-            <p class="text-center text-sm sm:text-base text-gray-500 tracking-wide">Keep track of your expenses effortlessly and take control of your finances.</p>
-        
+    <div class="flex flex-col items-center justify-center space-y-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center">Welcome to Expenzo!</h1>
+        <p class="text-center text-lg sm:text-xl font-medium text-gray-600">Smart & Simple Expense Tracking</p>
+
+        <p class="text-center text-sm sm:text-base text-gray-500 tracking-wide">Keep track of your expenses effortlessly
+            and take control of your finances.</p>
+
+        <div class="flex flex-col justify-center items-center space-y-4">
             <a routerLink="/add-expense"
                 class="flex items-center justify-center text-white w-44 py-3 font-semibold bg-blue-500 hover:bg-blue-600 transition-all duration-150 ease-out rounded-md">
                 <h1 class="font-semibold">Add an Expense</h1>
             </a>
+
+            <a routerLink="/expenses-list"
+                class="flex items-center justify-center text-white w-44 py-3 font-semibold bg-green-600 hover:bg-green-600 transition-all duration-150 ease-out rounded-md">
+                <h1 class="font-semibold">All Expenses</h1>
+            </a>
         </div>
+
+    </div>
     }
+
 </div>
