@@ -1,4 +1,4 @@
-<div class="flex items-center justify-start flex-col py-2 px-2 lg:px-10 w-full h-full space-y-12 lg:space-y-6">
+<div class="flex items-center justify-start flex-col py-2 px-2 lg:px-10 w-full h-full space-y-14 lg:space-y-6">
 
   <!-- Header -->
   <div class="hidden lg:flex items-center justify-between w-full">
@@ -21,51 +21,54 @@
     class="w-11/12 lg:w-1/2 h-auto min-h-14 flex flex-wrap items-center justify-between border border-black rounded-sm px-2 relative">
     <div class="flex font-medium items-center space-x-3 h-full w-full min-w-0"
       [ngClass]="isEditingSubject ? 'justify-between w-full' : 'justify-start w-11/12'">
-
       <h1 class="text-sm lg:text-base whitespace-nowrap">Subject:</h1>
 
       @if(!isEditingSubject){
       <h1 class="text-sm lg:text-base truncate">{{ details.name || 'Not provided' }}</h1>
       }
       @else {
-      <input type="text" class="h-full w-full min-w-0 bg-gray-50 outline-none font-normal px-4 text-sm lg:text-base"
+      <input type="text" class="h-full w-full min-w-0 outline-none font-normal px-4 text-sm lg:text-base"
         placeholder="Enter new name" [(ngModel)]="subject">
       <div (click)="updateField('name', subject)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white items-center justify-center text-xs lg:text-sm cursor-pointer hidden lg:flex">
+        Update
+      </div>
+      <div (click)="updateField('name', subject)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
     </div>
-
     <div (click)="toggleSubjectEdit()"
       class="w-10 cursor-pointer absolute right-0 -bottom-8 lg:-right-16 lg:inset-y-0 rounded-md flex items-center justify-center">
       <img src="assets/edit.png" alt="Edit" class="w-6 invert grayscale">
     </div>
   </div>
 
-
-
   <!-- Amount -->
+
   <div
     class="w-11/12 lg:w-1/2 h-auto min-h-14 flex flex-wrap items-center justify-between border border-black rounded-sm px-2 relative">
     <div class="flex font-medium items-center space-x-3 h-full w-full min-w-0"
       [ngClass]="isEditingAmount ? 'justify-between w-full' : 'justify-start w-11/12'">
-
       <h1 class="text-sm lg:text-base whitespace-nowrap">Amount:</h1>
 
       @if(!isEditingAmount){
       <h1 class="text-sm lg:text-base truncate">{{ details.amount || 'Not provided' }}</h1>
       }
       @else {
-      <input type="number" class="h-full w-full min-w-0 bg-gray-50 outline-none font-normal px-4 text-sm lg:text-base"
+      <input type="number" class="h-full w-full min-w-0  outline-none font-normal px-4 text-sm lg:text-base"
         placeholder="Enter new amount" [(ngModel)]="amount">
       <div (click)="updateField('amount', amount)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white items-center justify-center text-xs lg:text-sm cursor-pointer hidden lg:flex">
+        Update
+      </div>
+      <div (click)="updateField('amount', amount)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
     </div>
-
     <div (click)="toggleAmountEdit()"
       class="w-10 cursor-pointer absolute right-0 -bottom-8 lg:-right-16 lg:inset-y-0 rounded-md flex items-center justify-center">
       <img src="assets/edit.png" alt="Edit" class="w-6 invert grayscale">
@@ -74,31 +77,35 @@
 
 
   <!-- Date -->
+
   <div
     class="w-11/12 lg:w-1/2 h-auto min-h-14 flex flex-wrap items-center justify-between border border-black rounded-sm px-2 relative">
     <div class="flex font-medium items-center space-x-3 h-full w-full min-w-0"
       [ngClass]="isEditingDate ? 'justify-between w-full' : 'justify-start w-11/12'">
-
       <h1 class="text-sm lg:text-base whitespace-nowrap">Date:</h1>
 
       @if(!isEditingDate){
       <h1 class="text-sm lg:text-base truncate">{{ details.date || 'Not provided' }}</h1>
       }
       @else {
-      <input type="date" class="h-full w-full min-w-0 bg-gray-50 outline-none font-normal px-4 text-sm lg:text-base"
+      <input type="date" class="h-full w-full min-w-0  outline-none font-normal px-4 text-sm lg:text-base"
         [(ngModel)]="date">
       <div (click)="updateField('date', date)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white items-center justify-center text-xs lg:text-sm cursor-pointer hidden lg:flex">
+        Update
+      </div>
+      <div (click)="updateField('date', date)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
     </div>
-
     <div (click)="toggleDateEdit()"
       class="w-10 cursor-pointer absolute right-0 -bottom-8 lg:-right-16 lg:inset-y-0 rounded-md flex items-center justify-center">
       <img src="assets/edit.png" alt="Edit" class="w-6 invert grayscale">
     </div>
   </div>
+
 
 
   <!-- Status -->
@@ -111,7 +118,7 @@
       </h1>
       }
       @else {
-      <input type="text" class="h-full flex-grow bg-gray-50 outline-none font-normal px-4"
+      <input type="text" class="h-full flex-grow  outline-none font-normal px-4"
         placeholder="Enter new status" [(ngModel)]="status">
       <div (click)="updateField('status', status)"
         class="w-24 bg-blue-600 h-4/5 rounded-md text-white flex items-center justify-center text-sm cursor-pointer">
@@ -158,8 +165,15 @@
 
       </select>
 
+      <!-- for larger screens -->
       <div (click)="updateField('category', category)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white hidden lg:flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        Update
+      </div>
+
+      <!-- for smaller screens -->
+      <div (click)="updateField('category', category)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
@@ -188,8 +202,15 @@
         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none text-sm lg:text-base"
         placeholder="Enter new location" [(ngModel)]="location">
 
+      <!-- for larger screens -->
       <div (click)="updateField('location', location)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white hidden lg:flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        Update
+      </div>
+
+      <!-- for smaller screens -->
+      <div (click)="updateField('location', location)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
@@ -223,8 +244,15 @@
         <option value="Other">Other</option>
       </select>
 
+      <!-- for larger screens -->
       <div (click)="updateField('paymentMethod', paymentMethod)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white hidden lg:flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        Update
+      </div>
+
+      <!-- for smaller screens -->
+      <div (click)="updateField('paymentMethod', paymentMethod)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
@@ -249,11 +277,18 @@
       <h1 class="text-sm lg:text-base truncate">{{ details.description || 'Not provided' }}</h1>
       }
       @else {
-      <input type="text" class="h-full flex-grow bg-gray-50 outline-none font-normal px-4 text-sm lg:text-base"
+      <input type="text" class="h-full flex-grow  outline-none font-normal px-4 text-sm lg:text-base"
         placeholder="Enter new description" [(ngModel)]="description">
 
+      <!-- for larger screens -->
       <div (click)="updateField('description', description)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        class="w-24 bg-blue-600 h-10 rounded-md text-white hidden lg:flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+        Update
+      </div>
+
+      <!-- for smaller screens -->
+      <div (click)="updateField('description', description)"
+        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
       }
@@ -263,10 +298,11 @@
       class="w-10 cursor-pointer absolute right-0 -bottom-8 lg:-right-16 lg:inset-y-0 rounded-md flex items-center justify-center">
       <img src="assets/edit.png" alt="Edit" class="w-6 invert grayscale">
     </div>
+
   </div>
 
   <div [routerLink]="['/delete-expense', docId]"
-    class="w-11/12 mt-4 flex lg:hidden bg-red-600 text-white items-center cursor-pointer justify-center space-x-4 px-10 py-3 rounded-sm font-semibold">
+    class="w-11/12 mt-10 flex lg:hidden bg-red-600 text-white items-center cursor-pointer justify-center space-x-4 px-10 py-3 rounded-sm font-semibold">
     Delete
   </div>
 
