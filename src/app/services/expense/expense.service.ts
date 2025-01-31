@@ -10,11 +10,14 @@ export class ExpenseService {
 
   fireStore = inject(Firestore)
 
+  // user all expenses path
+
   private getCollection(uid: string) {
     return collection(this.fireStore, `users/${uid}/expenses`)
   }
 
 
+  // Add Expense
 
   addExpense(userId: string, expense: expense) {
     const expensesCollection = this.getCollection(userId)
@@ -26,159 +29,88 @@ export class ExpenseService {
     )
   }
 
-  getExpenses(userId: string): Observable<any> {
+  // All expense data of a user grouped by months
+
+  getMonthlyData(userId: string) {
     const expensesCollection = this.getCollection(userId)
+
     const q = query(expensesCollection, orderBy('date', 'desc'))
-    return from(collectionData(q, { idField: 'id' }))
-  }
 
-  getToTalExpenses(userId: string): Observable<any> {
-    const expensesCollection = this.getCollection(userId)
-    let totalAmount = 0;
+    return from(getDocs(q)).pipe(
 
-    return new Observable(observer => {
+      map(queySnapshot => {
+        return queySnapshot.docs.reduce((acc: any, doc) => {
 
-      getDocs(expensesCollection).then(querySnapshot => {
+          const data = doc.data()
+          data['id'] = doc.id
+          const date = data['date'] || ''
 
-        querySnapshot.forEach((docs) => {
-          totalAmount += docs.data()['amount'] || 0
-        })
-
-        observer.next(totalAmount)
-        observer.complete()
-      })
-        .catch((error) => {
-          observer.error(error)
-        })
-    })
-  }
-
-  getCategorisedSum(userId: string): Observable<any> {
-    const expensesCollection = this.getCollection(userId)
-
-    return new Observable(observer => {
-      getDocs(expensesCollection).then(querySnapshot => {
-        const categorySums: any = {};
-
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
-          const category = data['category'] || '';
-          const amount = data['amount'] || 0;
-
-          if (categorySums[category]) {
-            categorySums[category] += amount;
-          } else {
-            categorySums[category] = amount;
+          if (date) {
+            const monthDate = date.slice(0, 7)
+            acc[monthDate] = acc[monthDate] || []
+            acc[monthDate].push(data)
           }
-        });
 
-        observer.next(categorySums);
-        observer.complete();
-      }).catch(error => {
-        observer.error(error);
-      });
-    });
+          return acc
+        }, {})
+      })
+    )
   }
 
-  getMonthlyData(userId: string): Observable<any> {
-    const expensesCollection = this.getCollection(userId)
 
-    return new Observable((observer) => {
-      getDocs(expensesCollection)
-        .then((querySnapshot) => {
-          let monthlyData: any = {};
-
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const date = data['date'];
-
-            data['id'] = doc.id
-
-            if (date) {
-              // Extract "MM-YYYY" format
-              const monthYear = date.slice(5, 7) + '-' + date.slice(0, 4);
-
-              if (!monthlyData[monthYear]) {
-                monthlyData[monthYear] = [];
-              }
-              monthlyData[monthYear].push(data);
-            } else {
-              console.warn('Missing date for document:', doc.id);
-            }
-          });
-
-          observer.next(monthlyData);
-          observer.complete();
-        })
-        .catch((error) => {
-          observer.error(error);
-        });
-    });
-  }
+  // Monthly Total Amount
 
   getMonthlySum(userId: string): Observable<{ [key: string]: number }> {
     const expensesCollection = this.getCollection(userId)
-    const monthlySums: { [key: string]: number[] } = {};
 
-    return new Observable((observer) => {
-      getDocs(expensesCollection)
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const amount = data['amount'] || 0;
-            const date = data['date'] || '';
-            if (date) {
-              const monthDate = date.slice(0, 7);
+    return from(getDocs(expensesCollection)).pipe(
+      map(querySnapshot => {
+        return querySnapshot.docs.reduce((acc: { [key: string]: number }, doc) => {
+          const data = doc.data()
+          const date = data['date'] || ''
+          const amount = data['amount'] || ''
 
-              if (!monthlySums[monthDate]) {
-                monthlySums[monthDate] = [];
-              }
-              monthlySums[monthDate].push(amount);
-            }
-          });
-
-          // Convert arrays of amounts into summed totals
-          const finalSums: { [key: string]: number } = {};
-          for (let month in monthlySums) {
-            finalSums[month] = monthlySums[month].reduce((sum: number, value: number) => sum + value, 0);
+          if (date) {
+            const monthYear = date.slice(0, 7)
+            acc[monthYear] = (acc[monthYear] || 0) + amount
           }
 
-          observer.next(finalSums);
-          observer.complete();
-        })
-        .catch((error) => {
-          observer.error(error);
-        });
-    });
+          return acc
+        }, {})
+      })
+    )
   }
+
+
+  // categorised monthly data
 
   getCategorisedMonthlySum(userId: string): Observable<any> {
     const expensesCollection = this.getCollection(userId);
-  
+
     return new Observable(observer => {
       getDocs(expensesCollection).then(querySnapshot => {
         const categorisedMonthlyData: any = {};
-  
+
         querySnapshot.forEach(doc => {
           const data = doc.data();
           const date = data['date'] || '';
           const category = data['category'] || 'Uncategorized';
           const amount = data['amount'] || 0;
-  
+
           if (date) {
-            const monthYear = date.slice(0, 7);  // 🔥 This is the correct month grouping
-  
+            const monthYear = date.slice(0, 7);
+
             if (!categorisedMonthlyData[monthYear]) {
               categorisedMonthlyData[monthYear] = {};
             }
-  
-            categorisedMonthlyData[monthYear][category] = 
+
+            categorisedMonthlyData[monthYear][category] =
               (categorisedMonthlyData[monthYear][category] || 0) + amount;
           } else {
             console.warn('Missing date for document:', doc.id);
           }
         });
-  
+
         observer.next(categorisedMonthlyData);
         observer.complete();
       }).catch(error => {
@@ -186,7 +118,8 @@ export class ExpenseService {
       });
     });
   }
-  
+
+  // details of a single expense of a user
 
   getSpecificData(userId: string, docId: string): Observable<expense> {
     const docRef = doc(this.fireStore, `users/${userId}/expenses/${docId}`);
@@ -194,7 +127,7 @@ export class ExpenseService {
     return from(getDoc(docRef)).pipe(
       map((docSnap) => {
         if (docSnap.exists()) {
-          return docSnap.data() as expense;  // Type-cast to Expense
+          return docSnap.data() as expense;
         } else {
           throw new Error('Document does not exist');
         }

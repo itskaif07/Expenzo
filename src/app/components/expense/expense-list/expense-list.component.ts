@@ -20,8 +20,9 @@ export class ExpenseListComponent implements OnInit {
   totalAmount: number | null = null
   monthKeys: string[] = []
   monthName: string[] = []
-  monthlyAmount: { [key: string]: number } = {}; // Key is a string (month) and value is a number
+  monthlyAmount: { [key: string]: number } = {};
   monthlyData: { [key: string]: any[] } = {};
+  shortYear: string[] = []
 
   ngOnInit(): void {
     this.getUserId()
@@ -31,8 +32,6 @@ export class ExpenseListComponent implements OnInit {
     this.authService.user$.subscribe((res: any) => {
       if (res) {
         this.uid = res.uid
-        this.getExpenses()
-        this.getTotalAmount()
         this.getMonthlyData()
       }
     }, error => {
@@ -40,33 +39,6 @@ export class ExpenseListComponent implements OnInit {
     })
   }
 
-  getExpenses() {
-    if (this.uid != null) {
-      this.expenseService.getExpenses(this.uid).subscribe((res: any) => {
-        if (res) {
-          this.expenseList = res
-        }
-        else {
-          console.log('expenses not found')
-        }
-      }, error => {
-        console.log('Error while fetching expenses list, ', error)
-      })
-
-    }
-  }
-
-  getTotalAmount() {
-    if (this.uid != null) {
-      this.expenseService.getToTalExpenses(this.uid).subscribe((res: any) => {
-        if (res) {
-          this.totalAmount = res
-        }
-      }, error => {
-        console.log('error while fetching total amount', error)
-      })
-    }
-  }
 
 
   getMonthlyData() {
@@ -76,17 +48,21 @@ export class ExpenseListComponent implements OnInit {
           this.monthlyData = res;
           this.monthKeys = Object.keys(res);
 
+
           const months = [
             '', 'January', 'February', 'March', 'April', 'May',
             'June', 'July', 'August', 'September', 'October',
             'November', 'December'
           ];
 
-          // Map month keys to month names
-          this.monthName = this.monthKeys.map((key) => {
-            const monthIndex = parseInt(key.slice(0, 2), 10);
-            return months[monthIndex] + ', ' + key.slice(3);
-          });
+          for (let month of this.monthKeys) {
+
+            const monthDate = parseInt(month.slice(5, 7), 10)
+            this.monthName.push(months[monthDate])
+
+            const year = month.slice(2, 4)
+            this.shortYear.push(year)
+          }
 
           this.getMonthlySum()
         }
@@ -105,11 +81,6 @@ export class ExpenseListComponent implements OnInit {
         }
       })
     }
-  }
-
-  formatMonthKey(month: string): string {
-    const [mm, yyyy] = month.split('-');
-    return `${yyyy}-${mm}`;
   }
 
 }

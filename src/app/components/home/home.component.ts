@@ -36,12 +36,12 @@ export class HomeComponent implements OnInit {
     this.getMonth()
   }
 
+  // User id
+
   getUserId() {
     this.authService.user$.subscribe((res: any) => {
       if (res) {
         this.uid = res.uid
-        this.getExpenses()
-        this.getTotalAmount()
         this.getMonthlyCategorisedData()
       }
     }, error => {
@@ -49,36 +49,39 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getExpenses() {
+  // Monthly categorised data
+
+  getMonthlyCategorisedData() {
     if (this.uid != null) {
-      this.expenseService.getExpenses(this.uid).subscribe((res: any) => {
+      this.expenseService.getCategorisedMonthlySum(this.uid).subscribe((res: any) => {
         if (res) {
-          this.expenseList = res
+          const currentDate = new Date().toISOString().split('T')[0].slice(0, 7);
+          this.monthlyData = res;
+
+          if (this.monthlyData[currentDate]) {
+            this.categorisedAmount = this.monthlyData[currentDate];
+
+            this.getPercentage();
+
+          } else {
+            console.log('No data found for the current month:', currentDate);
+          }
         }
       }, error => {
-        console.log('error while fetching expense list, ', error)
-      })
+        console.log('Error fetching categorised monthly data:', error);
+      });
     }
   }
 
-  getTotalAmount() {
-    if (this.uid != null) {
-      this.expenseService.getToTalExpenses(this.uid).subscribe((res: any) => {
-        if (res) {
-          this.totalAmount = res
-        }
-      }, error => {
-        console.log('error while fetching total sum, ', error)
-      })
-    }
-  }
-
-
+  // Percentage
 
   getPercentage() {
-    if (this.categorisedAmount != null && this.totalAmount != null) {
+    if (this.categorisedAmount != null) {
+      this.totalAmount = Object.values(this.categorisedAmount).reduce((acc: number, val: any) => acc + val, 0)
+
       for (let category in this.categorisedAmount) {
         if (this.categorisedAmount.hasOwnProperty(category)) {
+
           const categoryAmount = this.categorisedAmount[category]
 
           if (categoryAmount > 0) {
@@ -86,16 +89,14 @@ export class HomeComponent implements OnInit {
             this.percentageList.push(percentage.toFixed(2))
             this.categoryList.push(category)
           }
-
         }
       }
       this.setColor()
       this.updateChart()
     }
-    else {
-      console.log('amount is null')
-    }
   }
+
+  // Random colors
 
   setColor() {
     const colorArray = [
@@ -113,27 +114,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getMonthlyCategorisedData() {
-    if (this.uid != null) {
-      this.expenseService.getCategorisedMonthlySum(this.uid).subscribe((res: any) => {
-        if (res) {
-          const currentDate = new Date().toISOString().split('T')[0].slice(0, 7);
-          this.monthlyData = res;
 
-          if (this.monthlyData[currentDate]) {
-            this.categorisedAmount = this.monthlyData[currentDate];
-            this.getPercentage();
 
-          } else {
-            console.log('No data found for the current month:', currentDate);
-          }
-        }
-      }, error => {
-        console.log('Error fetching categorised monthly data:', error);
-      });
-    }
-  }
-
+  // Current month name
 
   getMonth() {
     const months = [
@@ -147,7 +130,8 @@ export class HomeComponent implements OnInit {
   }
 
   // Pie Chart Configuration
-  public pieChartData: ChartConfiguration<'pie'>['data'] = {
+
+  pieChartData: ChartConfiguration<'pie'>['data'] = {
     labels: [],
     datasets: [
       {
@@ -157,19 +141,16 @@ export class HomeComponent implements OnInit {
     ],
   };
 
-  public pieChartOptions: ChartConfiguration<'pie'>['options'] = {
+  pieChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     plugins: {
       legend: {
         position: 'bottom',
+        align: 'center',
       },
-      datalabels: {
-        formatter: (value) => {
-          return value.toFixed(2) + '%'
-        }
-      }
     },
   };
+
 
   updateChart() {
     this.pieChartData = {

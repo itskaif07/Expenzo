@@ -7,6 +7,8 @@ import { AddExpenseComponent } from './components/expense/add-expense/add-expens
 import { ExpenseListComponent } from './components/expense/expense-list/expense-list.component';
 import { ExpenseDetailsComponent } from './components/expense/expense-details/expense-details.component';
 import { DeleteExpenseComponent } from './components/expense/delete-expense/delete-expense.component';
+import { MonthlyDataComponent } from './components/expense/monthly-data/monthly-data.component';
+import { MonthlyListComponent } from './components/expense/monthly-list/monthly-list.component';
 
 
 export const routes: Routes = [
@@ -59,5 +61,16 @@ export const routes: Routes = [
         path: 'delete-expense/:id',
         component: DeleteExpenseComponent
     },
+
+    {
+        path: 'monthly-expense/:date',
+        component: MonthlyDataComponent
+    },
+
+    {
+        path:'monthly-list/:date',
+        component:MonthlyListComponent
+    },
+
 
 ];
