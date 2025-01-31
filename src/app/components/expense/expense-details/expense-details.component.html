@@ -265,41 +265,41 @@
   </div>
 
 
-  <!-- Description -->
-  <div
-    class="w-11/12 lg:w-1/2 h-auto min-h-14 flex flex-wrap items-center justify-between border border-black rounded-sm px-2 relative">
-    <div class="flex font-medium items-center space-x-3 h-full w-full min-w-0"
-      [ngClass]="isEditingDescription ? 'justify-between w-full' : 'justify-start w-11/12'">
+<!-- Description -->
+<div class="w-11/12 lg:w-1/2 flex flex-wrap items-center justify-between border border-black rounded-sm px-2 relative">
+  <div class="py-2 flex flex-col space-y-2 font-medium justify-center w-full min-w-0"
+       [ngClass]="isEditingDescription ? 'justify-between w-full' : 'justify-start w-11/12'">
 
-      <h1 class="text-sm lg:text-base whitespace-nowrap">Description:</h1>
+    <h1 class="text-sm lg:text-base">Description:</h1>
 
-      @if(!isEditingDescription){
-      <h1 class="text-sm lg:text-base truncate">{{ details.description || 'Not provided' }}</h1>
-      }
-      @else {
-      <input type="text" class="h-full flex-grow  outline-none font-normal px-4 text-sm lg:text-base"
-        placeholder="Enter new description" [(ngModel)]="description">
+    @if(!isEditingDescription){
+      <div class="text-sm lg:text-base text-wrap overflow-hidden truncate">{{ details.description || 'Not provided' }}</div>
+    }
+    @else {
+      <textarea class="h-auto w-full min-w-0 outline-none font-normal text-sm lg:text-base resize-none"
+                placeholder="Enter new description" [(ngModel)]="description"></textarea>
 
       <!-- for larger screens -->
       <div (click)="updateField('description', description)"
-        class="w-24 bg-blue-600 h-10 rounded-md text-white hidden lg:flex items-center justify-center text-xs lg:text-sm cursor-pointer">
+           class="w-24 bg-blue-600 h-10 rounded-md text-white hidden lg:flex items-center justify-center text-xs lg:text-sm cursor-pointer">
         Update
       </div>
 
       <!-- for smaller screens -->
       <div (click)="updateField('description', description)"
-        class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
+           class="lg:hidden w-24 bg-blue-600 h-10 rounded-md text-white flex items-center justify-center text-xs lg:text-sm cursor-pointer absolute -bottom-11 -left-3">
         Update
       </div>
-      }
-    </div>
-
-    <div (click)="toggleDescEdit()"
-      class="w-10 cursor-pointer absolute right-0 -bottom-8 lg:-right-16 lg:inset-y-0 rounded-md flex items-center justify-center">
-      <img src="assets/edit.png" alt="Edit" class="w-6 invert grayscale">
-    </div>
-
+    }
   </div>
+
+  <div (click)="toggleDescEdit()"
+       class="w-10 cursor-pointer absolute right-0 -bottom-8 lg:-right-16 lg:inset-y-0 rounded-md flex items-center justify-center">
+    <img src="assets/edit.png" alt="Edit" class="w-6 invert grayscale">
+  </div>
+</div>
+
+
 
   <div [routerLink]="['/delete-expense', docId]"
     class="w-11/12 mt-10 flex lg:hidden bg-red-600 text-white items-center cursor-pointer justify-center space-x-4 px-10 py-3 rounded-sm font-semibold">
