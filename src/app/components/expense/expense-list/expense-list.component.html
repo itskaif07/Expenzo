@@ -1,68 +1,79 @@
-<div class="flex flex-col items-center py-6 px-6 w-full h-full space-y-6">
+<div class="flex flex-col items-center py-6 px-1 lg:px-6 w-full h-full space-y-6">
     <!-- HEADER -->
     <div class="hidden lg:flex items-center w-full">
-        <div routerLink="/" class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
+        <div routerLink="/"
+            class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
-    
+
         <div class="flex-grow text-center">
             <h1 class="font-bold text-2xl">Your Expenses</h1>
         </div>
-    
+
         <div class="hidden lg:block w-14"></div>
     </div>
-    
+
 
     @if (monthKeys && monthKeys.length > 0) {
     <!-- GRID -->
     <div class="w-full">
         <!-- GRID HEADER -->
-        <div class="flex w-full border-gray-300 bg-[#222222] text-white">
-            <div class="font-bold text-center py-3 px-2 flex-1">Subject</div>
+        <div class="flex w-full border-gray-300 bg-[#222222] text-white max-[400px]:text-sm">
+            <div class="font-bold text-center py-3 px-2 flex-1 hidden lg:block">Subject</div>
             <div class="font-bold text-center py-3 px-2 flex-1">Amount</div>
             <div class="font-bold text-center py-3 px-2 flex-1">Date</div>
             <div class="font-bold text-center py-3 px-2 flex-1">Category</div>
-            <div class="font-bold text-center py-3 px-2 flex-1">Status</div>
+            <div class="font-bold text-center py-3 px-2 flex-1 hidden lg:block">Status</div>
         </div>
 
         <!-- Iterate Over Monthly Data -->
-        <div *ngFor="let month of monthKeys; let i = index">
+        @for (month of monthKeys; track $index) {
+        <div>
             <div class="flex justify-between py-4 px-4">
-                <div class="w-14"></div>
-                <h1 routerLink="/monthly-expense/{{month}}" class="text-center font-semibold underline cursor-pointer text-lg">{{ monthName[i] }}, {{shortYear[i]}}</h1>
-                <h1 class="font-semibold text-green-600">₹ {{ monthlyAmount[month] || 0 }}</h1>
+                <div class="w-14 hidden lg:block"></div>
+                <h1 routerLink="/monthly-expense/{{month}}"
+                    class="text-center font-semibold underline cursor-pointer text-lg max-[400px]:text-sm">{{ monthName[$index] }},
+                    {{shortYear[$index]}}</h1>
+                <h1 class="font-semibold text-green-600 max-[400px]:text-sm">₹ {{ monthlyAmount[month] || 0 }}</h1>
             </div>
 
-            <div *ngFor="let expense of monthlyData[month]" [routerLink]="['/expense-details', expense.id]">
+
+            @for (expense of monthlyData[month]; track $index) {
+            <div [routerLink]="['/expense-details', expense.id]">
                 <div
-                    class="flex py-3 relative w-full font-medium mt-2 border-[1px] border-[#111111] group hover:bg-gray-400 transition-all ease-out hover:text-white cursor-pointer">
-                    <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] group-hover:text-white">
+                    class="flex py-3 text-sm lg:text-base relative w-full font-medium mt-2 border-[1px] border-[#111111] group hover:bg-gray-400 transition-all ease-out hover:text-white cursor-pointer">
+                    <div
+                        class="hidden lg:flex items-center justify-center text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] group-hover:text-white">
                         {{ expense.name || '' }}
                     </div>
                     <div
-                        class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] text-green-600 group-hover:text-white">
+                        class="flex items-center justify-center text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] text-green-600 group-hover:text-white">
                         ₹ {{ expense.amount || 0 }}
                     </div>
-                    <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222]">
+                    <div
+                        class="flex items-center justify-center text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222]">
                         {{ expense.date | date: 'dd-MM-yyyy' }}
                     </div>
-                    <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222]">
+                    <div
+                        class="flex items-center justify-center text-center py-1 px-2 flex-1 lg:border-r-[1px] lg:border-[#222222]">
                         {{ expense.category }}
                     </div>
-                    <div class="text-center py-1 px-2 flex-1 border-[#222222] group-hover:text-white"
+                    <div class="hidden lg:flex items-center justify-center text-center py-1 px-2 flex-1 border-[#222222] group-hover:text-white"
                         [ngClass]="{'text-green-600': expense.status === 'Paid', 'text-amber-600': expense.status === 'Pending'}">
                         {{ expense.status }}
                     </div>
                 </div>
             </div>
+            }
         </div>
+        }
     </div>
     }
     @else {
     <div class="flex flex-col space-y-6 items-center justify-center h-[70vh] w-full">
         <img src="assets/No-calls-yet-in-Viber-for-i.jpg" alt="no data" class="h-1/2 flex items-start justify-center">
 
-        <p class="text-sm tracking-widest text-center">Your expenses will be displayed here after you add them.   🚀</p>
+        <p class="text-sm tracking-widest text-center">Your expenses will be displayed here after you add them. 🚀</p>
     </div>
     }
 </div>

@@ -1,44 +1,44 @@
 @if(date){
-<div class="flex flex-col items-center space-y-10 justify-center pt-10 h-full w-full px-4">
+<div class="flex flex-col items-center space-y-10 justify-center pt-10 h-full w-full px-2">
 
 
-    <div class="flex items-center justify-between w-full">
-        <div routerLink="/monthly-expense/{{date}}" class="flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
+    <div class="flex items-center justify-center lg:justify-between w-full">
+        <div routerLink="/monthly-expense/{{date}}" class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
 
         <h1 class="font-semibold text-lg">All Expenses of {{date}}</h1>
 
-        <div></div>
+        <div class="hidden lg:block"></div>
     </div>
 
     <div class="w-full h-full flex flex-col justify-center items-center">
 
-        <div class="flex w-full border-gray-300 bg-[#222222] text-white">
-            <div class="font-bold text-center py-3 px-2 flex-1">Subject</div>
+         <div class="flex w-full border-gray-300 bg-[#222222] text-white max-[400px]:text-sm">
+            <div class="font-bold text-center py-3 px-2 flex-1 hidden lg:block">Subject</div>
             <div class="font-bold text-center py-3 px-2 flex-1">Amount</div>
             <div class="font-bold text-center py-3 px-2 flex-1">Date</div>
             <div class="font-bold text-center py-3 px-2 flex-1">Category</div>
-            <div class="font-bold text-center py-3 px-2 flex-1">Status</div>
+            <div class="font-bold text-center py-3 px-2 flex-1 hidden lg:block">Status</div>
         </div>
 
         @for (expense of monthlyData[date]; track $index) {
         <div routerLink="/expense-details/{{expense.id}}"
-            class="flex py-3 relative w-full font-medium mt-2 border-[1px] border-[#111111] group hover:bg-gray-400 transition-all ease-out hover:text-white cursor-pointer">
-            <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] group-hover:text-white">
+            class="flex py-3 relative w-full font-medium mt-2 text-sm lg:text-base border-[1px] border-[#111111] group hover:bg-gray-400 transition-all ease-out hover:text-white cursor-pointer">
+            <div class="hidden lg:flex items-center justify-center text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] group-hover:text-white">
                 {{ expense.name || '' }}
             </div>
             <div
-                class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] text-green-600 group-hover:text-white">
+                class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] text-green-600 group-hover:text-white flex items-center justify-center">
                 ₹ {{ expense.amount || 0 }}
             </div>
-            <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222]">
+            <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222] flex items-center justify-center">
                 {{ expense.date | date: 'dd-MM-yyyy' }}
             </div>
-            <div class="text-center py-1 px-2 flex-1 border-r-[1px] border-[#222222]">
+            <div class="text-center py-1 px-2 flex-1 lg:border-r-[1px] lg:border-[#222222] flex items-center justify-center">
                 {{ expense.category }}
             </div>
-            <div class="text-center py-1 px-2 flex-1 border-[#222222] group-hover:text-white"
+            <div class="hidden lg:flex items-center justify-center text-center py-1 px-2 flex-1 group-hover:text-white"
                 [ngClass]="{'text-green-600': expense.status === 'Paid', 'text-amber-600': expense.status === 'Pending'}">
                 {{ expense.status }}
             </div>
