@@ -1,6 +1,6 @@
 <div class="flex flex-col items-center justify-center h-[88vh] py-2 w-full space-y-2 ">
 
-    <div class="flex items-center justify-between w-[97%]">
+    <div class="flex items-center justify-center lg:justify-between w-[97%]">
         <div routerLink="/expenses-list"
             class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
@@ -17,8 +17,8 @@
     }
     @else {
     <div
-        class="max-[400px]:w-full w-3/4 sm:w-3/4 md:w-3/4 lg:w-3/4 min-[1100px]:w-3/5 xl:w-3/5 2xl:w-7/12 h-full flex items-center justify-center flex-col space-y-8">
-        <canvas class="w-full h-60" baseChart [data]="graphConfiguration" [type]="'bar'">
+        class="h-1/2 sm:h-3/4 lg:h-full max-[400px]:w-full w-3/4 sm:w-3/4 md:w-3/4 lg:w-3/4 min-[1100px]:w-3/5 xl:w-3/5 2xl:w-7/12 flex items-center justify-center flex-col space-y-8">
+        <canvas class="w-full " baseChart [data]="graphConfiguration" [type]="'bar'">
         </canvas>
     </div>
     }
