@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ExpenseService } from '../../services/expense/expense.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ChartConfiguration } from 'chart.js';
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   categorisedAmount: any = null
   monthlyData: any = null;
   monthlyAmount: any = []
+  router = inject(Router)
 
   expenseList: any[] = []
   percentageList: string[] = []
@@ -140,6 +141,15 @@ export class HomeComponent implements OnInit {
 
     const currentMonthIndex = new Date().getUTCMonth();
     this.monthName = months[currentMonthIndex];
+  }
+
+  openBudget(){
+    if(this.authService.checkLogIn() && this.authService.isVerified){
+
+    }
+    else{
+      this.router.navigateByUrl('log-in')
+    }
   }
 
   // Pie Chart Configuration
