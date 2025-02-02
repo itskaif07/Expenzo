@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center justify-center h-full py-2 w-full space-y-2 ">
+<div class="flex flex-col items-center justify-center h-[90vh] py-2 w-full ">
 
     <div class="flex items-center justify-between w-full px-4">
         <!-- Back Button -->
@@ -6,38 +6,41 @@
             class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
-    
+
         <!-- Centered Title -->
         <div class="flex-grow flex justify-center">
             <h1 class="font-bold text-xl text-center">{{ monthName }} Expenses</h1>
         </div>
-    
+
         <!-- Total Amount -->
-        <div class="hidden lg:block font-semibold"> 
+        <div class="hidden lg:block font-semibold">
             Total Amount: <span class="text-green-600">₹ {{totalAmount}}</span>
         </div>
     </div>
 
-    
+
     @if (isLoading) {
-    <div class="w-1/2 h-4/5 space-y-6 flex items-center justify-center flex-col">
+    <div class="w-4/5 h-full space-y-6 flex items-center justify-center">
         <h1 class="text-xl font-semibold animate-pulse">Fetching data...</h1>
     </div>
     }
     @else {
-    <div
-        class="h-1/2 sm:h-3/4 lg:h-full max-[400px]:w-full w-3/4 sm:w-3/4 md:w-3/4 lg:w-3/4 min-[1100px]:w-3/5 xl:w-3/5 2xl:w-7/12 flex items-center justify-center flex-col space-y-8">
-        <canvas class="w-full " baseChart [data]="graphConfiguration" [type]="'bar'">
-        </canvas>
-    </div>
-    }
 
-    <div class="lg:hidden block my-6"> Total Amount: <span class="font-semibold text-green-600">₹ {{totalAmount}}</span>
-    </div>
+    <div class="w-full h-full flex items-center justify-center flex-col space-y-2">
+        <div
+            class="h-1/2 sm:h-3/4 lg:h-full max-[400px]:w-full  sm:w-3/4 md:w-3/4 lg:w-3/4 min-[1100px]:w-3/5 xl:w-3/5 2xl:w-7/12 min-[1537px]:3/4 flex items-center justify-center">
+            <canvas class="w-full h-full" baseChart [data]="graphConfiguration" [type]="'bar'">
+            </canvas>
+        </div>
 
-    <div routerLink="/monthly-list/{{date}}/{{totalAmount}}"
-        class="flex items-center justify-center w-44 h-12 cursor-pointer bg-blue-600 hover:bg-blue-800 transition-all duration-150 ease-in rounded-sm font-semibold text-white">
-        <h1>More details</h1>
-    </div>
+        <div class="lg:hidden block my-6"> Total Amount: <span class="font-semibold text-green-600">₹
+                {{totalAmount}}</span>
+        </div>
 
+        <div routerLink="/monthly-list/{{date}}/{{totalAmount}}"
+            class="flex items-center justify-center w-44 h-12 mt-20 cursor-pointer bg-blue-600 hover:bg-blue-800 transition-all duration-150 ease-in rounded-sm font-semibold text-white">
+            <h1>More details</h1>
+        </div>
+    </div>
+}
 </div>
