@@ -29,6 +29,7 @@ export class AddExpenseComponent implements OnInit {
   addedCategory: string = ''
   addedCategoryError: string = ''
   isCategoryError: boolean = false
+  successMessage:string | null = null
 
   addExpenseForm: FormGroup = new FormGroup({})
 
@@ -131,11 +132,13 @@ export class AddExpenseComponent implements OnInit {
   }
 
 
-
   onSubmit() {
     if (this.uid != null) {
       this.expenseService.addExpense(this.uid, this.addExpenseForm.value).subscribe((res: any) => {
-        this.router.navigateByUrl('expenses-list')
+        this.successMessage = "Expense Added Successfully"
+        setTimeout(() => {
+          this.router.navigateByUrl('expenses-list')
+        }, 1500);
       }, error => {
         console.log('error while adding expense', error)
       })

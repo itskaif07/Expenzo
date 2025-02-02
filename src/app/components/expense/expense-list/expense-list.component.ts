@@ -23,6 +23,7 @@ export class ExpenseListComponent implements OnInit {
   monthlyAmount: { [key: string]: number } = {};
   monthlyData: { [key: string]: any[] } = {};
   shortYear: string[] = []
+  isLoading:boolean = true
 
   ngOnInit(): void {
     this.getUserId()
@@ -34,11 +35,14 @@ export class ExpenseListComponent implements OnInit {
         this.uid = res.uid
         this.getMonthlyData()
       }
+      else{
+        this.uid = null
+        this.isLoading = false
+      }
     }, error => {
       console.log('error while fetching user Id', error)
     })
   }
-
 
 
   getMonthlyData() {
@@ -47,7 +51,6 @@ export class ExpenseListComponent implements OnInit {
         if (res) {
           this.monthlyData = res;
           this.monthKeys = Object.keys(res);
-
 
           const months = [
             '', 'January', 'February', 'March', 'April', 'May',
@@ -65,9 +68,11 @@ export class ExpenseListComponent implements OnInit {
           }
 
           this.getMonthlySum()
+          this.isLoading = false
         }
       }, (error) => {
         console.log(error);
+        this.isLoading = false
       });
     }
   }

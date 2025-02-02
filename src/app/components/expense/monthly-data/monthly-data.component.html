@@ -1,22 +1,23 @@
 <div class="flex flex-col items-center justify-center h-[90vh] py-2 w-full ">
 
-    <div class="flex items-center justify-between w-full px-4">
+    <div class="flex items-center w-full px-4 relative">
         <!-- Back Button -->
         <div routerLink="/expenses-list"
             class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
-
+    
         <!-- Centered Title -->
-        <div class="flex-grow flex justify-center">
+        <div class="absolute left-1/2 transform -translate-x-1/2">
             <h1 class="font-bold text-xl text-center">{{ monthName }} Expenses</h1>
         </div>
-
+    
         <!-- Total Amount -->
-        <div class="hidden lg:block font-semibold">
+        <div class="hidden lg:block font-semibold ml-auto">
             Total Amount: <span class="text-green-600">₹ {{totalAmount}}</span>
         </div>
     </div>
+    
 
 
     @if (isLoading) {

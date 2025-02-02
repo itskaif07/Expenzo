@@ -1,4 +1,13 @@
 <div class="w-full h-full relative">
+
+    @if (successMessage != null) {
+    <div
+        class="font-semibold flex items-center justify-center space-x-3 mt-5 lg:mt-0 lg:absolute top-20 inset-x-0 bg-gray-100 z-10 rounded-md w-fit px-10 py-2 mx-auto">
+        <img src="assets/check.png" alt="" class="w-4">
+        <h1>{{successMessage}}</h1>
+    </div>
+    }
+
     <form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()"
         class="flex flex-col items-center py-6 px-4 w-full h-full space-y-6">
 
