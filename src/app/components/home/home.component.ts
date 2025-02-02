@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
   categoryList: string[] = []
   colorList: string[] = []
 
+  isAddingBudget:boolean = false
+
 
 
   ngOnInit(): void {
@@ -143,13 +145,12 @@ export class HomeComponent implements OnInit {
     this.monthName = months[currentMonthIndex];
   }
 
-  openBudget(){
-    if(this.authService.checkLogIn() && this.authService.isVerified){
+  openBudget() {
+    this.isAddingBudget = true
+  }
 
-    }
-    else{
-      this.router.navigateByUrl('log-in')
-    }
+  closeBudget(){
+    this.isAddingBudget = false
   }
 
   // Pie Chart Configuration
