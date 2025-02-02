@@ -63,12 +63,12 @@ export const routes: Routes = [
     },
 
     {
-        path: 'monthly-expense/:date',
+        path: 'monthly-expense/:date/:amount',
         component: MonthlyDataComponent
     },
 
     {
-        path:'monthly-list/:date',
+        path:'monthly-list/:date/:amount',
         component:MonthlyListComponent
     },
 

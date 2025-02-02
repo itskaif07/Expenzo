@@ -21,6 +21,7 @@ export class MonthlyListComponent implements OnInit {
   monthlyData: any = []
   date: string | null = ''
   resultData: any = []
+  totalAmount:string | null = null
 
   ngOnInit(): void {
     this.getUserId()
@@ -38,7 +39,10 @@ export class MonthlyListComponent implements OnInit {
 
   getDate() {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.date = params.get('date') || ''
+      if(params){
+        this.date = params.get('date') || ''
+        this.totalAmount = params.get('amount') || ''
+      }
     })
   }
 

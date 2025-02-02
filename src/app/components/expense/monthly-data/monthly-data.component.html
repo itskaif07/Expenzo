@@ -1,15 +1,24 @@
-<div class="flex flex-col items-center justify-center h-[88vh] py-2 w-full space-y-2 ">
+<div class="flex flex-col items-center justify-center h-full py-2 w-full space-y-2 ">
 
-    <div class="flex items-center justify-center lg:justify-between w-[97%]">
+    <div class="flex items-center justify-between w-full px-4">
+        <!-- Back Button -->
         <div routerLink="/expenses-list"
             class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
-        <h1 class="font-bold text-xl">{{ monthName }} Expenses</h1>
-
-        <div class="hidden lg:block"></div>
+    
+        <!-- Centered Title -->
+        <div class="flex-grow flex justify-center">
+            <h1 class="font-bold text-xl text-center">{{ monthName }} Expenses</h1>
+        </div>
+    
+        <!-- Total Amount -->
+        <div class="hidden lg:block font-semibold"> 
+            Total Amount: <span class="text-green-600">₹ {{totalAmount}}</span>
+        </div>
     </div>
 
+    
     @if (isLoading) {
     <div class="w-1/2 h-4/5 space-y-6 flex items-center justify-center flex-col">
         <h1 class="text-xl font-semibold animate-pulse">Fetching data...</h1>
@@ -23,7 +32,10 @@
     </div>
     }
 
-    <div routerLink="/monthly-list/{{date}}"
+    <div class="lg:hidden block my-6"> Total Amount: <span class="font-semibold text-green-600">₹ {{totalAmount}}</span>
+    </div>
+
+    <div routerLink="/monthly-list/{{date}}/{{totalAmount}}"
         class="flex items-center justify-center w-44 h-12 cursor-pointer bg-blue-600 hover:bg-blue-800 transition-all duration-150 ease-in rounded-sm font-semibold text-white">
         <h1>More details</h1>
     </div>

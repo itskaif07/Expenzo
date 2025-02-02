@@ -31,7 +31,7 @@
         <div>
             <div class="flex justify-between py-4 px-4">
                 <div class="w-14 hidden lg:block"></div>
-                <h1 routerLink="/monthly-expense/{{month}}"
+                <h1 routerLink="/monthly-expense/{{month}}/{{monthlyAmount[month] || 0}}"
                     class="text-center font-semibold underline cursor-pointer text-lg max-[400px]:text-sm">{{ monthName[$index] }},
                     {{shortYear[$index]}}</h1>
                 <h1 class="font-semibold text-green-600 max-[400px]:text-sm">₹ {{ monthlyAmount[month] || 0 }}</h1>

@@ -2,15 +2,28 @@
 <div class="flex flex-col items-center space-y-10 justify-center pt-10 h-full w-full px-2">
 
 
-    <div class="flex items-center justify-center lg:justify-between w-full">
-        <div routerLink="/monthly-expense/{{date}}" class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
+    <div class="flex items-center w-full px-4 relative">
+        <!-- Back Button -->
+        <div routerLink="/monthly-expense/{{date}}/{{totalAmount}}" 
+            class="hidden lg:flex items-center justify-center cursor-pointer border w-14 h-14 rounded-md">
             <img src="assets/back.png" alt="Back" class="w-10 opacity-90">
         </div>
-
-        <h1 class="font-semibold text-lg">All Expenses of {{date}}</h1>
-
-        <div class="hidden lg:block"></div>
+    
+        <!-- Centered Title -->
+        <h1 class="absolute left-1/2 -translate-x-1/2 font-semibold text-lg text-center">
+            All Expenses of {{date}}
+        </h1>
+    
+        <!-- Total Amount -->
+        <div class="hidden lg:block ml-auto font-semibold">
+            Total Amount: <span class=" text-green-600">₹ {{totalAmount}}</span>
+        </div>
     </div>
+    
+        
+    <h1 class="lg:hidden block font-semibold"> 
+        Total Amount: <span class="text-green-600">₹ {{totalAmount}}</span>
+    </h1>
 
     <div class="w-full h-full flex flex-col justify-center items-center">
 
