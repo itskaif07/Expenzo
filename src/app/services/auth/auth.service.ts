@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject, from, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +56,9 @@ export class AuthService {
   }
 
   logOut(): Observable<any> {
-    return from(signOut(this.auth))
+    return from(signOut(this.auth)).pipe(
+      tap(() => this.userSubject.next(null))
+    )
   }
 
   checkLogIn(): boolean {

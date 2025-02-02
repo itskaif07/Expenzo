@@ -44,9 +44,23 @@ export class HomeComponent implements OnInit {
         this.uid = res.uid
         this.getMonthlyCategorisedData()
       }
+      else {
+        this.uid == null
+        this.resetData()
+      }
     }, error => {
       console.log('Error while fetching user id, ', error)
     })
+  }
+
+  resetData() {
+    this.uid = null;
+    this.categorisedAmount = null;
+    this.expenseList = [];
+    this.percentageList = [];
+    this.categoryList = [];
+    this.colorList = [];
+    this.updateChart();
   }
 
   // Monthly categorised data
@@ -113,7 +127,6 @@ export class HomeComponent implements OnInit {
       this.colorList.push(colorArray[randomNumber])
     }
   }
-
 
 
   // Current month name
